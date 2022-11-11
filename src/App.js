@@ -9,11 +9,15 @@ function App() {
 
   const apiKey = process.env.REACT_APP_API_KEY;
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${state}&appid=${apiKey}`
-
+  const fetchData = async (url) => {
+    let res = await fetch(url);
+    let data = await res.json();
+    setApiData(data);
+  }
   useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setApiData(data))
+    fetchData(url);
+    console.log('data', apiData);
+      
   }, [url])
 
   const inputTyped = (event) => {
@@ -22,39 +26,39 @@ function App() {
   const submitRequest = () => {
     setState(getCity)
   }
+  const convertKelToFar = (k) => {
+    return (k - 273.15).toFixed(2);
+  };
   
 
   return (
-    <>
-      <div>
+    <div className='App'>
+      <div className='Input-Class'>
         <h4>React Weather App</h4>
-        <div>
-          <label for="city">
+          <label htmlFor="city">
             Enter City:
-          </label>
-        </div>
-        <div>
+          </label> {' '}
           <input type="text" id="city" onChange={inputTyped} value={getCity} />
-        </div>
-        <button onClick={submitRequest}>
-          Search
-        </button>
+          <button onClick={submitRequest}>
+            Search
+          </button>
       </div>
       <div>
         {apiData.main ? (
           <div>
-            <p>{apiData.main.temp}</p>
-          <p>{apiData.name}</p>
-          <p>{apiData.main.temp_min}</p>
-          <p>{apiData.main.temp_max}</p>
-          <p>{apiData.weather[0].main}</p>
-          {/* <p>{countries.getName(apiData.sys.country, 'en', {
-            select: 'official',
-          })}</p> */}
+            <img
+              src={`http://openweathermap.org/img/w/${apiData.weather[0].icon}.png`}
+              alt="weather icon"
+            />
+            <p>Current Temp: {convertKelToFar(apiData.main.temp)}</p>
+          <p>City: {apiData.name}</p>
+          <p>Min Temp: {convertKelToFar(apiData.main.temp_min)}</p>
+          <p>Max Temp: {convertKelToFar(apiData.main.temp_max)}</p>
+          <p>Country: {apiData.sys.country}</p>
           </div>
-        ) : (<h1>Loading</h1>)}
+        ) : (<h6>Enter correct city </h6>)}
       </div>
-    </>
+    </div>
   );
 }
 
