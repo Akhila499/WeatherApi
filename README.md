@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+## About the project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a simple react site which shows you the current temperature of any city you search for.
+
+## Deploye Preview
+
+Link to preview : [https://zesty-cucurucho-d08b2a.netlify.app/](https://zesty-cucurucho-d08b2a.netlify.app/)
 
 ## Available Scripts
 
